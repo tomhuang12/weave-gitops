@@ -71,7 +71,7 @@ debug: ## Compile binary with optimisations and inlining disabled
 	go build -ldflags $(LDFLAGS) -o bin/$(BINARY_NAME) -gcflags='all=-N -l' cmd/gitops/*.go
 
 bin: ## Build gitops binary
-	go build -ldflags $(LDFLAGS) -o bin/$(BINARY_NAME) cmd/gitops/*.go
+	CGO_ENABLED=0 go build -ldflags $(LDFLAGS) -o bin/$(BINARY_NAME) cmd/gitops/*.go
 
 docker: ## Build wego-app docker image
 	docker build -t ghcr.io/weaveworks/wego-app:latest .
