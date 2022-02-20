@@ -123,6 +123,7 @@ require (
 	github.com/fluxcd/pkg/apis/acl v0.0.1 // indirect
 	github.com/fluxcd/pkg/apis/kustomize v0.3.0 // indirect
 	github.com/form3tech-oss/jwt-go v3.2.3+incompatible // indirect
+	github.com/freshautomations/stoml v0.7.0 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/getkin/kin-openapi v0.61.0 // indirect
 	github.com/go-git/gcfg v1.5.0 // indirect
