@@ -27,15 +27,20 @@ endif
 ##@ Default target
 all: gitops ## Install dependencies and build Gitops binary
 
+
+TEST_TO_RUN=./...
 ##@ Test
-unit-tests: dependencies  ## Run unit tests
+unit-tests: dependencies ## Run unit tests
+	which ginkgo || go install github.com/onsi/ginkgo/v2/ginkgo
 	# To avoid downloading dependencies every time use `SKIP_FETCH_TOOLS=1 unit-tests`
-	KUBEBUILDER_ASSETS=$(KUBEBUILDER_ASSETS) CGO_ENABLED=0 go test -v -tags unittest ./...
+	KUBEBUILDER_ASSETS=$(KUBEBUILDER_ASSETS) CGO_ENABLED=0 ginkgo -v -tags unittest $(TEST_TO_RUN)
 
 integration-tests: dependencies
-	KUBEBUILDER_ASSETS=$(KUBEBUILDER_ASSETS) CGO_ENABLED=0 go test -v ./test/integration/...
+	which ginkgo || go install github.com/onsi/ginkgo/v2/ginkgo
+	KUBEBUILDER_ASSETS=$(KUBEBUILDER_ASSETS) CGO_ENABLED=0 ginkgo -v ./test/integration/...
 
 acceptance-tests: local-registry local-docker-image
+	which ginkgo || go install github.com/onsi/ginkgo/v2/ginkgo
 	IS_TEST_ENV=true IS_LOCAL_REGISTRY=true ginkgo ${ACCEPTANCE_TEST_ARGS} -v ./test/acceptance/test/...
 
 local-kind-cluster-with-registry:
@@ -49,7 +54,8 @@ local-docker-image:
 	docker push localhost:5000/wego-app:latest
 
 test: dependencies
-	go test -v ./core/...
+	which ginkgo || go install github.com/onsi/ginkgo/v2/ginkgo
+	ginkgo -v ./core/...
 
 fakes: ## Generate testing fakes
 	go generate ./...
