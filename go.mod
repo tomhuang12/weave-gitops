@@ -241,6 +241,9 @@ require (
 	sigs.k8s.io/structured-merge-diff/v4 v4.1.2 // indirect
 )
 
+// https://security.snyk.io/vuln/SNYK-GOLANG-GITHUBCOMPROMETHEUSCLIENTGOLANGPROMETHEUSPROMHTTP-2401819
+replace github.com/prometheus/client_golang => github.com/prometheus/client_golang v1.11.1
+
 // fix CVE-2021-41103
 // fix GHSA-mvff-h3cj-wj9c
 replace github.com/containerd/containerd => github.com/containerd/containerd v1.5.9
