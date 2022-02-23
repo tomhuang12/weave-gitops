@@ -1,23 +1,23 @@
 .PHONY: debug bin gitops install clean fmt vet dependencies lint ui ui-lint ui-test ui-dev unit-tests proto proto-deps api-dev ui-dev fakes crd
-VERSION=$(shell git describe --always --match "v*")
-GOOS=$(shell go env GOOS)
-GOARCH=$(shell go env GOARCH)
+VERSION=$(shell which git > /dev/null && git describe --always --match "v*")
+GOOS=$(shell which go > /dev/null && go env GOOS)
+GOARCH=$(shell which go > /dev/null && go env GOARCH)
 
 BUILD_TIME=$(shell date +'%Y-%m-%d_%T')
-BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
+BRANCH=$(shell which git > /dev/null && git rev-parse --abbrev-ref HEAD)
 GIT_COMMIT=$(shell git log -n1 --pretty='%h')
 CURRENT_DIR=$(shell pwd)
-FORMAT_LIST=$(shell gofmt -l .)
+FORMAT_LIST=$(shell which gofmt > /dev/null && gofmt -l .)
 FLUX_VERSION=$(shell $(CURRENT_DIR)/tools/bin/stoml $(CURRENT_DIR)/tools/dependencies.toml flux.version)
 LDFLAGS = "-X github.com/weaveworks/weave-gitops/cmd/gitops/version.BuildTime=$(BUILD_TIME) -X github.com/weaveworks/weave-gitops/cmd/gitops/version.Branch=$(BRANCH) -X github.com/weaveworks/weave-gitops/cmd/gitops/version.GitCommit=$(GIT_COMMIT) -X github.com/weaveworks/weave-gitops/pkg/version.FluxVersion=$(FLUX_VERSION) -X github.com/weaveworks/weave-gitops/cmd/gitops/version.Version=$(VERSION)"
 
 KUBEBUILDER_ASSETS ?= "$(CURRENT_DIR)/tools/bin/envtest"
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
-ifeq (,$(shell go env GOBIN))
-GOBIN=$(shell go env GOPATH)/bin
+ifeq (,$(shell which go > /dev/null && go env GOBIN))
+GOBIN=$(shell which go > /dev/null && go env GOPATH)/bin
 else
-GOBIN=$(shell go env GOBIN)
+GOBIN=$(shell which go > /dev/null && go env GOBIN)
 endif
 
 ifeq ($(BINARY_NAME),)
