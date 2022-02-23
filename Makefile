@@ -122,6 +122,11 @@ proto: ## Generate protobuf files
 #	oapi-codegen -config oapi-codegen.config.yaml api/applications/applications.swagger.json
 
 ##@ UI
+# Build the UI for embedding
+ui: node_modules cmd/gitops/ui/run/dist/main.js ## Build the UI
+
+cmd/gitops/ui/run/dist/main.js:
+	npm run build
 
 node_modules: ## Install node modules
 	npm ci
@@ -136,21 +141,17 @@ ui-test: ## Run UI tests
 ui-audit: ## Run audit against the UI
 	npm audit --production
 
-ui: node_modules cmd/gitops/ui/run/dist/main.js ## Build the UI
-
+# Build the UI as an NPM package (hosted on github)
 ui-lib: node_modules dist/index.js dist/index.d.ts ## Build UI libraries
 # Remove font files from the npm module.
 	@find dist -type f -iname \*.otf -delete
 	@find dist -type f -iname \*.woff -delete
 
-cmd/gitops/ui/run/dist:
-	mkdir -p cmd/gitops/ui/run/dist
+dist/index.js: ui/index.ts
+	npm run build:lib && cp package.json dist
 
-cmd/gitops/ui/run/dist/index.html: cmd/gitops/ui/run/dist
-	touch cmd/gitops/ui/run/dist/index.html
-
-cmd/gitops/ui/run/dist/main.js:
-	npm run build
+dist/index.d.ts: ui/index.ts
+	npm run typedefs
 
 # Runs a test to raise errors if the integration between Gitops Core and EE is
 # in danger of breaking due to package API changes.
@@ -161,11 +162,6 @@ lib-test: dependencies ## Run the library integration test
 		-v $(CURRENT_DIR):/go/src/github.com/weaveworks/weave-gitops \
 		 gitops-library-test
 
-dist/index.js: ui/index.ts
-	npm run build:lib && cp package.json dist
-
-dist/index.d.ts: ui/index.ts
-	npm run typedefs
 
 # Test coverage
 

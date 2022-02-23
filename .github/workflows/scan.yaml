@@ -43,7 +43,7 @@ jobs:
         with:
           go-version: '1.17'
       - name: Generate UI file to embed
-        run: make cmd/gitops/ui/run/dist/index.html
+        run: mkdir -p cmd/gitops/ui/run/dist && touch cmd/gitops/ui/run/dist/index.html
       - name: Run Snyk to check for vulnerabilities
         run: snyk test --all-projects --sarif-file-output=snyk.code.sarif
         env:
