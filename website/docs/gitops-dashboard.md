@@ -151,8 +151,8 @@ docker run -e CLEAR_PASSWORD="super secret password" -it alpine
 Once inside the shell environment of the Alpine image, install the bcrypt library dependencies as well as the bcrypt library itself:
 
 ```sh
-# apk add --update musl-dev gcc libffi-dev python3 python3-dev py3-pip
-# pip install bcrypt
+apk add --update musl-dev gcc libffi-dev python3 python3-dev py3-pip
+pip install bcrypt
 ```
 
 Run the following Python script to generate a hash:
