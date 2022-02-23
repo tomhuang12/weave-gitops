@@ -39,7 +39,7 @@ There are 2 supported methods for logging in to the dashboard:
 - Login via an OIDC provider
 - Login via the superuser account
 
-The recommended approach is to integrate with an OIDC provider, as this will let you control permissions for your platform users and groups using standard Kubernetes RBAC. However, it is also possible to use a superuser account to login, if an OIDC provider is not available to use.
+The recommended approach is to integrate with an OIDC provider, as this will let you control permissions for your platform users *and groups* using standard Kubernetes RBAC. However, it is also possible to use a superuser account to login, if an OIDC provider is not available to use. The superuser will assume the Kubernetes RBAC `User` named `admin`.
 
 :::note FEATURE TOGGLE 
 The following instructions describe a feature that is behind a feature toggle. To enable this feature, set the following OS environment variable:
