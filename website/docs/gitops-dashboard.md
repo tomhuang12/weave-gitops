@@ -158,8 +158,8 @@ pip install bcrypt
 Run the following Python script to generate a hash:
 
 ```sh
-# python3 -c 'import bcrypt, os; print(bcrypt.hashpw(os.getenv("CLEAR_PASSWORD").encode(), bcrypt.gensalt()))'
-b'$2b$12$nLfl7lKBiYzgAN2aI3ii6exZSZ9KRsj18C7CEWY8kscj9.c6bRXim'
+python3 -c 'import bcrypt, os; print(bcrypt.hashpw(os.getenv("CLEAR_PASSWORD").encode(), bcrypt.gensalt()))'
+# b'$2b$12$nLfl7lKBiYzgAN2aI3ii6exZSZ9KRsj18C7CEWY8kscj9.c6bRXim'
 ```
 
 Now create a Kubernetes secret to store the password hash:
